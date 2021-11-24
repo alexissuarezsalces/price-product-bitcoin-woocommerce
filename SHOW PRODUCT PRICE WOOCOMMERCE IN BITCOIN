@@ -1,10 +1,8 @@
 <?php
-
-<!--------------------------------------------------------------
-
-    By alexisonline.nl
-
---------------------------------------------------------------->
+/*
+*   By alexisonline.nl
+*
+*/
 
 /* SHOW PRODUCT PRICE WOOCOMMERCE IN BITCOIN */
 add_action( 'woocommerce_before_add_to_cart_form', 'precioBTC' );

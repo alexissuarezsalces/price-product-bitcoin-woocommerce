@@ -1,0 +1,41 @@
+<?php
+
+<!--------------------------------------------------------------
+
+    By alexisonline.nl
+
+--------------------------------------------------------------->
+
+/* SHOW PRODUCT PRICE WOOCOMMERCE IN BITCOIN */
+add_action( 'woocommerce_before_add_to_cart_form', 'precioBTC' );
+
+function precioBTC (){
+
+global $product;
+$productoID = $product->get_id();
+
+if ($productoID == ID-PRODUCT ){ // PRODUCT ID IF YOU NEED ONLY FOR ONE SPECIAL PRODUCT.
+
+$productPrice = $product->get_price();
+if ( $productPrice != "0" ) {
+
+$url = "https://bitpay.com/api/rates";
+$json = file_get_contents($url);
+$data = json_decode($json, TRUE);
+
+foreach($data as $row) {
+if ($row["code"] == "EUR") {
+
+$rate = $row["rate"];
+$bitcoin_price = round( $productPrice / $rate , 6 );
+
+if ($bitcoin_price) {
+echo "<span class='btc-price'>" . "<span class='img'><img src='https://dynamic-assets.coinbase.com/e785e0181f1a23a30d9476038d9be91e9f6c63959b538eabbc51a1abc8898940383291eede695c3b8dfaa1829a9b57f5a2d0a16b0523580346c6b8fab67af14b/asset_icons/b57ac673f06a4b0338a596817eb0a50ce16e2059f327dc117744449a47915cb2.png' alt='Bitcoin'> </span>" .  $bitcoin_price . " BTC </span>";
+}
+break;
+}
+}
+}
+}
+}
+?>
